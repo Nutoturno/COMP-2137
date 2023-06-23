@@ -2,7 +2,7 @@
 
 #This will display the hostname, os and uptime
 
-myhostname=$(hostname)
+myHostName=$(hostname)
 source /etc/os-release
 os=$(PRETTY_NAME)
 uptime=$(uptime)
@@ -11,8 +11,8 @@ uptime=$(uptime)
 #This will display the hardware information
 
 cpu=$(lscpu | grep "Model name")
-curspeed=$(cat /proc/cpuinfo | grep "MHz")
-maxspeed=$(cat /proc/cpuinfo | grep "cache size")
+curSpeed=$(cat /proc/cpuinfo | grep "MHz")
+maxSpeed=$(cat /proc/cpuinfo | grep "cache size")
 ram=$(free -h)
 disk=$(lsblk | egrep "sda|sdb")
 video=$(lspci | grep VGA)
@@ -20,22 +20,23 @@ video=$(lspci | grep VGA)
 #This will display network information
 
 fqdn=$(hostname --fqdn)
-hostadd=$(hostname -I)
-gateway
-dnsser
+hostAdd=$(hostname -I)
+gateway=$(ip route | grep default)
+dnsServ=$(cat /etc/resolv.conf | grep "nameserver")
 
-interfacename
-ipaddress
+interfaceName=$(inxi -N)
+ipAddCidr=$(ifconfig | grep -i mask)
+
 
 #This will display system status
 
-usersLogIn
-diskspace
-processcount
-loadavr
-memallocation
-listennetports
-ufwrules
+usersLoggedIn=$(who)
+diskSpace=$(df -h)
+processCount=$(ps)
+loadAvr=$(cat /proc/loadavg)
+memAllowFree=$(cat /proc/meminfo | grep MemFree)
+listeningPorts=$(netstat -tulpn | grep LISTEN)
+ufwRules=$(ufw enable | ufw status)
 
 
 
@@ -49,50 +50,44 @@ System Information
  
 *******************************************************************
 
-Hostname:	$myhostname
+Hostname:	$myHostName
 OS:		$PRETTY_NAME
 Uptime:		$uptime
 
-
-#This will display the hardware information
 
 Hardware Information
 
 *******************************************************************
 
 Cpu:		$cpu
-Speed:		$curspeed	$maxspeed
+Speed:		$curSpeed	$maxSpeed
 Ram:		$ram 
 Disk(s):	$disk
 Video:		$video
-
-#This will display the network information
 
 Network Information
 
 ******************************************************************
 
 FQDN:		$fqdn 
-Host Address:	$hostadd
-Gateway IP: 
-DNS Server: 
+Host Address:	$hostAdd
+Gateway IP: 	$gateway
+DNS Server:	$dnsServ
 
-InterfaceName: 
-IP Address: 
+InterfaceName:	$interfaceName 
+IP Address:	$ipAddCidr 
 
-
-#This will display the system status
 
 System Status
 
 *****************************************************************
 
-Users Logged In: 
-Disk Space: 
-Process Count: 
-Load Averages: 
-Memory Allocation: 
-Listening Network Ports: 
-UFW Rules: 
+Users Logged In:	$usersLoggedIn 
+Disk Space:		$diskSpace 
+Process Count:		$processCount 
+Load Averages:		$loadAvr 
+Memory Allocation:	$memAllowFree 
+Listening Network Ports:$listeningPorts
+UFW Rules:		$ufwRules 
 
 EOF
