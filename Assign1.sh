@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#This will display the hostname, os and uptime
+#This will display the System information
 
 myHostName=$(hostname)
 source /etc/os-release
