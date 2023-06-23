@@ -4,7 +4,6 @@
 
 myHostName=$(hostname)
 source /etc/os-release
-os=$(PRETTY_NAME)
 uptime=$(uptime)
 
 
